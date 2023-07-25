@@ -32,10 +32,10 @@ class MainScreen:
         # Draw Shade to Draw border add [1,-1,0] to make it all sides 
         for x_offset in [1]:
             for y_offset in [1]:
-                draw.text((x + x_offset, y + y_offset), str(text), font=self.font, fill=border_color)
+                draw.text((x + x_offset, y + y_offset), "{:02}".format(text), font=self.font, fill=border_color)
         
         # Draw text on top of border
-        draw.text((x, y), str(text), font=self.font)
+        draw.text((x, y), "{:02}".format(text), font=self.font)
 
 
 
