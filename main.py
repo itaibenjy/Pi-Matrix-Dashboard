@@ -5,10 +5,8 @@ from config import Config
 import argparse
 
 currentdir = os.getcwd()
-parentdir = os.path.dirname(currentdir)
-sys.path.append(parentdir+"/rpi-rgb-led-matrix/bindings/python")
+sys.path.append(os.path.join(currentdir,"rpi-rgb-led-matrix","bindings","python"))
 
-from rgbmatrix import RGBMatrix, RGBMatrixOptions
 from apps import main_screen
 from develop import DeveloperWindow
 
@@ -17,6 +15,36 @@ parser = argparse.ArgumentParser(description='LED Matrix display software.')
 parser.add_argument('-d', '--dev-mode', action='store_true', help='Run in development mode (show image in a tkinter window instead of sending it to the LED matrix).')
 args = parser.parse_args()
 
+penguinGif = main_screen.MainScreen(gif=Config.data['background'] ,delay=0.08)
+
+
+# Run in development mode
+if(args.dev_mode):
+    print("Running in development mode.")
+    dev_window = DeveloperWindow()
+
+    try:
+        print("Press CTRL-C to stop.")
+
+        while(True):
+            frame = penguinGif.getFrame()
+            dev_window.show_image(frame)
+            dev_window.window.update()
+            time.sleep(0.08) 
+
+        dev_window.window.mainloop()
+    except KeyboardInterrupt:
+        sys.exit(0)
+
+
+# Run in regular mode
+try:
+    from rgbmatrix import RGBMatrix, RGBMatrixOptions
+except ModuleNotFoundError:
+    print("Could not find the rpi-rgb-led-matrix library. Please follow the installation instructions (maybe you need to run 'make' command) at github or run in developer mode")
+    sys.exit(1)
+
+    
 
 # Configuration for the matrix
 options = RGBMatrixOptions()
@@ -29,24 +57,16 @@ options.pixel_mapper_config = "U-mapper;Rotate:180"
 
 matrix = RGBMatrix(options = options)
 
-penguinGif = main_screen.MainScreen(gif=Config.data['background'] ,delay=0.08)
-
-# Create the develper window
-if args.dev_mode:
-    dev_window = DeveloperWindow()
 
 try:
     print("Press CTRL-C to stop.")
 
     while(True):
         frame = penguinGif.getFrame()
-        if args.dev_mode:
-            # Display the frame in the image window
-            dev_window.show_image(frame)
-            dev_window.window.update()
-        else:
-            # Send the frame to the LED matrix
-            matrix.SetImage(frame)
+
+        # Send the frame to the LED matrix
+        matrix.SetImage(frame)
+        time.sleep(0.08) 
 
 except KeyboardInterrupt:
     sys.exit(0)
