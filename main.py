@@ -7,7 +7,7 @@ import argparse
 currentdir = os.getcwd()
 sys.path.append(os.path.join(currentdir,"rpi-rgb-led-matrix","bindings","python"))
 
-from apps import main_screen
+from apps import main_screen, weather_screen
 from develop import DeveloperWindow
 
 # Parse command-line arguments
@@ -15,7 +15,8 @@ parser = argparse.ArgumentParser(description='LED Matrix display software.')
 parser.add_argument('-d', '--dev-mode', action='store_true', help='Run in development mode (show image in a tkinter window instead of sending it to the LED matrix).')
 args = parser.parse_args()
 
-penguinGif = main_screen.MainScreen(gif=Config.data['background'] ,delay=0.08)
+penguinGif = main_screen.MainScreen(gif=Config.data['background'])
+weather = weather_screen.WeatherScreen()
 
 
 # Run in development mode
@@ -27,7 +28,7 @@ if(args.dev_mode):
         print("Press CTRL-C to stop.")
 
         while(True):
-            frame = penguinGif.getFrame()
+            frame = weather.getFrame()
             dev_window.show_image(frame)
             dev_window.window.update()
             time.sleep(0.08) 

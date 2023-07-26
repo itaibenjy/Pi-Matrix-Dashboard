@@ -1,10 +1,12 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 import numpy as np
+import sys
 
 class DeveloperWindow:
     def __init__(self):
         self.window = tk.Tk()
+        self.window.protocol("WM_DELETE_WINDOW", self.on_close)
         self.window.geometry('400x200')
         self.label = tk.Label(self.window, bg='black')  # set label background to black
         self.window.title("Developer Mode - LED Matrix Simulator")
@@ -36,3 +38,6 @@ class DeveloperWindow:
 
     def mainloop(self):
         self.window.mainloop()
+
+    def on_close(self):
+        self.window.destroy()

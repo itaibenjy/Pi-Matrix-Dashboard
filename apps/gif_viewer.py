@@ -6,12 +6,11 @@ class GifScreen:
     width = 64
     height = 32
 
-    def __init__(self, gif, delay) -> None:
+    def __init__(self, gif) -> None:
         self.image_file = f"assets/images/{gif}"
         self.gif = Image.open(self.image_file)
         self.num_frames = self.gif.n_frames
         self.cur_frame = 0
-        self.delay = delay
         self.preprocess()
 
     def preprocess(self) -> None:
@@ -29,7 +28,6 @@ class GifScreen:
 
     def getFrame(self):
         frame = self.images[self.cur_frame]
-        time.sleep(self.delay)
         self.cur_frame += 1
         if self.cur_frame >= self.num_frames:
             self.cur_frame = 0
