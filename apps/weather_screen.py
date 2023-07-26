@@ -7,8 +7,8 @@ from utils.text import textShade
 
 weather_background = (0,0,0)
 drops_color = (1,106,175)
-high_temp_color = (200,0,0)
-low_temp_color = (0,0,2000)
+high_temp_color = (233, 119, 119) 
+low_temp_color = (130, 148, 196)
 
 class WeatherScreen:
 
@@ -21,10 +21,11 @@ class WeatherScreen:
         self.weather_updaters = [WeatherUpdater(self.api_key, city) for city in self.cities]
 
     def getFrame(self) -> Image.Image:
-        frame = Image.new("RGBA", (Config.data["matrix"]["width"], Config.data["matrix"]["height"]), weather_background)
+        frame = Image.new("RGBA", (Config.data["matrix"]["width"], Config.data["matrix"]["height"]))
+        frame.paste(Image.open(f"assets/images/cloud.png").convert("RGBA").resize((64,32)), (0,0))
         draw = ImageDraw.Draw(frame)
         self.drawWeather(draw, frame)
-        return frame
+        return frame.convert("RGB")
     
     def drawWeather(self, draw, frame) -> None:
         font = ImageFont.truetype('assets/fonts/tiny.otf', 5)
@@ -33,7 +34,7 @@ class WeatherScreen:
         if not data:
             return
 
-        if data['is_rain']:
+        if data['is_rain'] or True:
             self.randomRain(draw);
 
         # Draw Icon image

@@ -63,7 +63,7 @@ try:
     print("Press CTRL-C to stop.")
 
     while(True):
-        frame = penguinGif.getFrame()
+        frame = weather.getFrame()
 
         # Send the frame to the LED matrix
         matrix.SetImage(frame)
