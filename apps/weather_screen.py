@@ -34,7 +34,7 @@ class WeatherScreen:
         if not data:
             return
 
-        if data['is_rain'] or True:
+        if data['is_rain']:
             self.randomRain(draw);
 
         # Draw Icon image
