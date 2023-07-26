@@ -2,6 +2,7 @@ from datetime import datetime
 from PIL import Image, ImageDraw, ImageFont
 from apps import gif_viewer
 import pytz
+from config import Config
 
 class MainScreen:
 
@@ -11,7 +12,7 @@ class MainScreen:
     def __init__(self, gif, delay) -> None:
         self.gif = gif_viewer.GifScreen(gif, delay)
         self.font = ImageFont.FreeTypeFont('assets/fonts/tiny.otf', 10)
-        self.timezone = pytz.timezone('Asia/Jerusalem')
+        self.timezone = pytz.timezone(Config.data['timezone'])
     
 
     def getFrame(self) -> None:
