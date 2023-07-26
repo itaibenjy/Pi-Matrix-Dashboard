@@ -6,10 +6,14 @@ class DeveloperWindow:
     def __init__(self):
         self.window = tk.Tk()
         self.window.geometry('400x200')
-        self.label = tk.Label(self.window)
+        self.label = tk.Label(self.window, bg='black')  # set label background to black
         self.window.title("Developer Mode - LED Matrix Simulator")
         self.window.update()
-        self.label.pack()
+        # Use grid layout manager and set the label to expand
+        self.label.grid(sticky='nsew')
+        self.window.grid_columnconfigure(0, weight=1)
+        self.window.grid_rowconfigure(0, weight=1)
+
 
     def show_image(self, image):
         # Convert the image to a PIL Image, then to a Tkinter PhotoImage
